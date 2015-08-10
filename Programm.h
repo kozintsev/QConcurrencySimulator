@@ -1,4 +1,9 @@
+#ifndef PROGRAMM_H
+#define PROGRAMM_H
 
+#include <QMainWindow>
+#include <QMessageBox>
+#include <QStringListModel>
 
 /** program - set of instructions for computer system */
 class Programm {
@@ -49,3 +54,5 @@ protected:
 	/** maximum statements for program */
 	const size_t acceptMaxStatements;
 };
+
+#endif // PROGRAMM_H

@@ -27,6 +27,16 @@
      <string>PushButton</string>
     </property>
    </widget>
+   <widget class="QListWidget" name="mylistWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>361</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>

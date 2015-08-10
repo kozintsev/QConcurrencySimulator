@@ -1,6 +1,13 @@
 #ifndef Computer_H
 #define Computer_H
 
+#include <QMainWindow>
+#include <QMessageBox>
+#include <QStringListModel>
+#include <QObject>
+
+#include "mainwindow.h"
+
 /** Computer memory */
 class Memory {
 public:
@@ -25,14 +32,18 @@ protected:
 };
 
 /** Computer system */
-class Computer {
-	friend CPU;
+class Computer : public QObject {
+
+    friend class CPU;
+
+//Q_OBJECT
+
 public:
-	Computer();
+    Computer();
 	virtual ~Computer();
 
 	/** reads Computer init information from standard input stream */
-	void readInputStream();
+    void readInputStream(FileStructure &fs);
 
 	/** loads nPrograms to the system (reads its from standard input stream) */
 	bool loadProgramms(size_t nPrograms);
@@ -43,11 +54,17 @@ public:
 	/** execute programs calculation */
 	void calculate();
 
+//    void sendSignal(const QString& str)
+//    {
+//        emit sendString(str);
+//    }
+
 protected:
+    MainWindow *ui;
 	/** Computer system CPU */
 	CPU cpu;
 	/** Computer system Memory */
-	Memory memory;
+    Memory memory;
 	/** The running program is permitted to continue executing instructions 
 	 *  for a period of time called its quantum - this is unitsNumQuantum
 	**/
@@ -60,6 +77,10 @@ protected:
 	queue<Programm*, list<Programm*> > readyQueue;
 	/** maximum programs accepted */
 	const size_t acceptMaxPrograms;
+
+//signals:
+//    void sendString(const QString&);
+
 };
 
 #endif // FILESTRUCTURE_H

@@ -1,4 +1,5 @@
 #include "StdAfx.h"
+#include "filestructure.h"
 
 #include "CPU.h"
 #include "Programm.h"
@@ -18,18 +19,20 @@ void Memory::setValue(char place, size_t value) {
 }
 
 Computer::Computer() : acceptMaxPrograms(10) {
-	cpu.setComputer(this);
+    cpu.setComputer(this);
 }
 Computer::~Computer() {
 	unloadProgramms();
 }
 
-void Computer::readInputStream() {
-	cpu.readInputStream();
-	cin >> unitsNumQuantum;
+void Computer::readInputStream(FileStructure &fs) {
+    cpu.readInputStream(fs);
+    unitsNumQuantum = fs.unitsNumQuantum;
 }
 
 bool Computer::loadProgramms(size_t nPrograms) {
+    QString str;
+    //str = QString::fromStdString(error);
 	if (nPrograms > acceptMaxPrograms) {
 		cout << "#computer accept only " + convertIntToString(acceptMaxPrograms) + " programs" << endl;
 		return false;
@@ -50,7 +53,9 @@ bool Computer::loadProgramms(size_t nPrograms) {
 		string error;
 		bool res = programm->readInputStream(error);
 		if (!res) {
-			cout << error << endl;
+            str = QString::fromStdString(error);
+            //sendSignal(str);
+            //cout << error << endl;
 			return false;
 		}
 		readyQueue.push(programm);

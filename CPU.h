@@ -1,4 +1,13 @@
+#ifndef CPU_H
+#define CPU_H
 
+//#include <QMainWindow>
+//#include <QMessageBox>
+//#include <QStringListModel>
+#include <QObject>
+
+//#include "mainwindow.h"
+#include "filestructure.h"
 
 class Computer;
 
@@ -33,11 +42,11 @@ protected:
 /** commands processor */
 class CPU {
 public:
-	CPU() : computer(0) {}
+    CPU() : computer(0) {}
 	~CPU() {}
 
 	/** reads CPU init information from standard input stream */
-	void readInputStream();
+    void readInputStream(FileStructure &fs);
 
 	/** CPU executes one command for the Programm which id is programmID 
 	 *  returns time units amount
@@ -52,7 +61,7 @@ public:
 	/** gets CPU lock state - if result 0 - CPU unlocked */
 	size_t getLockState() const {
 		return lock.getLockState();
-	}
+    }
 
 protected:
 	/** time units for operation: Assignment */
@@ -69,5 +78,8 @@ protected:
 	/** lock object for CPU - used for save CPU locking state */
 	LockObject lock;
 	/** the Computer for CPU */
-	Computer* computer;
+    Computer* computer;
 };
+
+
+#endif // CPU_H

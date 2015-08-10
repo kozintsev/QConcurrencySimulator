@@ -17,10 +17,33 @@ inline bool isLock(string command)
     return false;
 }
 
-#define IS_UNLOCK(command)    (command.compare("unlock") == 0)
-#define IS_END(command)       (command.compare("end") == 0)
-#define IS_PRINT(command)     (command.compare("print") == 0)
-#define IS_EQUATION(command)  (command.compare("=") == 0)
+inline bool isUnLock(string command)
+{
+    if (command.compare("unlock") == 0)
+        return true;
+    return false;
+}
+
+inline bool isEnd(string command)
+{
+    if (command.compare("end") == 0)
+        return true;
+    return false;
+}
+
+inline bool isPrint(string command)
+{
+    if (command.compare("print") == 0)
+        return true;
+    return false;
+}
+
+inline bool isEquation(string command)
+{
+    if (command.compare("=") == 0)
+        return true;
+    return false;
+}
 
 #define ERROR_UNKNOWN(ID, nLines, error)                       (error = "#progID " + \
 	convertIntToString(ID) + " line " + convertIntToString(nLines) + ": unkown command")
@@ -55,7 +78,7 @@ bool Programm::readInputStream(string& error) {
 		string::size_type index = 0;
 		string command = getToken(strLine, index, delimiters);
 		if (index >= strLine.length()) {
-            bool accept = isLock(command) || IS_UNLOCK(command) || IS_END(command) || isLetter(command);
+            bool accept = isLock(command) || isUnLock(command) || isEnd(command) || isLetter(command);
 			if (!accept) {
 				ERROR_UNKNOWN(ID, nLines, error);
 				return false;
@@ -63,19 +86,19 @@ bool Programm::readInputStream(string& error) {
 			code.push_back(command);
 			continue;
 		}
-        bool accept = IS_PRINT(command) || isLetter(command);
+        bool accept = isPrint(command) || isLetter(command);
 		if (!accept) {
 			ERROR_UNKNOWN(ID, nLines, error);
 			return false;
 		}
 		string token = getToken(strLine, index, delimiters);
-        accept = IS_PRINT(command) && isLetter(token);
+        accept = isPrint(command) && isLetter(token);
 		if (accept) {
 			command += " " + token;
 			code.push_back(command);
 			continue;
 		}
-        accept = isLetter(command) && IS_EQUATION(token);
+        accept = isLetter(command) && isEquation(token);
 		if (index >= strLine.length() || !accept) {
 			ERROR_UNKNOWN(ID, nLines, error);
 			return false;

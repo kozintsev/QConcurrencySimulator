@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QMessageBox>
+#include <QStringListModel>
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +23,9 @@ public:
 private:
     Ui::MainWindow *ui;
     QString fileName_DATA, fileName;
+
+//public slots:
+//    void slot(const QString& str);
 };
 
 #endif // MAINWINDOW_H

@@ -1,22 +1,30 @@
 #include "StdAfx.h"
+#include "filestructure.h"
 
 #include "CPU.h"
 #include "Programm.h"
 #include "Computer.h"
 
 
-void CPU::readInputStream() {
-	cin >> unitsNumAssignment;
-	cin >> unitsNumOutput;
-	cin >> unitsNumBeginMutualExclusion;
-	cin >> unitsNumEndMutualExclusion;
-	cin >> unitsNumStopExecution;
+void CPU::readInputStream(FileStructure &fs) {
+    unitsNumAssignment = fs.unitsNumAssignment;
+    unitsNumOutput = fs.unitsNumOutput;
+    unitsNumBeginMutualExclusion = fs.unitsNumBeginMutualExclusion;
+    unitsNumEndMutualExclusion = fs.unitsNumEndMutualExclusion;
+    unitsNumStopExecution = fs.unitsNumStopExecution;
 }
 
 size_t CPU::executeCommand(size_t programmID, const string& command) {
 	size_t timeAmount = 0;
 	if (command.substr(0, 6).compare("print ") == 0) {
-		cout << programmID << ": " << computer->memory.getValue(command[6]) << endl;
+        QString str;
+        str = QString::number(programmID) + ": " + QString::number(computer->memory.getValue(command[6]));
+        //computer->sendString(str);
+        //sendSignal(str);
+        //ui->mylistWidget->addItem(str);
+        //programmID << ": " << computer->memory.getValue(command[6]);
+        //cout << programmID << ": " << computer->memory.getValue(command[6]) << endl;
+
 		timeAmount = unitsNumOutput;
 	}
 	else if (command.compare("lock") == 0) {
