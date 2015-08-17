@@ -12,20 +12,21 @@
 
 FileStructure * fs;
 QStringList firstLine;
-QStringList myConsoleData;
 
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    size_t nPrograms;
     ui->setupUi(this);
+    //QMessageBox::information(this, "Output", "output", QMessageBox::Ok, QMessageBox::NoButton);
     try
     {
     fs = new FileStructure;
     if (OpenFile())
     {
-        size_t nPrograms = fs->nPrograms;
+        nPrograms = fs->nPrograms;
         for (int i = 0;  i < fs->fileRead.count(); i++)
         {
             //QString s = QString::number(nPrograms);
@@ -36,11 +37,12 @@ MainWindow::MainWindow(QWidget *parent) :
         Computer computer;
         //QObject::connect(computer, SIGNAL(sendSignal(const QString& str)),
         //    this, SLOT(slot(const QString& str));
-        //computer.readInputStream(*fs);
-        //bool res = computer.loadProgramms(nPrograms);
+        computer.readInputStream(*fs);
+        bool res = computer.loadProgramms(nPrograms);
         //if (res) {
         //     computer.calculate();
         //}
+        ui->mylistWidget->addItems(gQStrLisr);
     }
     }
     catch(...)
@@ -76,6 +78,7 @@ bool MainWindow::OpenFile()
         {
             str = stream.readLine();
             ui->mylistWidget->addItem(str);
+            gMyConsoleData << str;
             if ( i == 0)
             {
                 firstLine = str.split(" ");

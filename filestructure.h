@@ -2,7 +2,10 @@
 #define FILESTRUCTURE_H
 
 #include <QMainWindow>
+#include <QStringList>
 
+static QStringList gQStrLisr; // глобальный список для вывода сообщений
+static QStringList gMyConsoleData; // глобальный список для хранения данных из ListView
 
 class FileStructure
 {

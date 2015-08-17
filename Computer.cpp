@@ -19,6 +19,7 @@ void Memory::setValue(char place, size_t value) {
 }
 
 Computer::Computer() : acceptMaxPrograms(10) {
+    QMessageBox::information(this, "Output", "Computer constr", QMessageBox::Ok, QMessageBox::NoButton);
     cpu.setComputer(this);
 }
 Computer::~Computer() {
@@ -28,13 +29,16 @@ Computer::~Computer() {
 void Computer::readInputStream(FileStructure &fs) {
     cpu.readInputStream(fs);
     unitsNumQuantum = fs.unitsNumQuantum;
+    QMessageBox::information(this, "Output", "readInputStream", QMessageBox::Ok, QMessageBox::NoButton);
 }
 
 bool Computer::loadProgramms(size_t nPrograms) {
     QString str;
     //str = QString::fromStdString(error);
 	if (nPrograms > acceptMaxPrograms) {
-		cout << "#computer accept only " + convertIntToString(acceptMaxPrograms) + " programs" << endl;
+        //cout << "#computer accept only " + convertIntToString(acceptMaxPrograms) + " programs" << endl;
+        str = "#computer accept only " + QString::fromStdString(convertIntToString(acceptMaxPrograms)) + " programs";
+        gQStrLisr << str;
 		return false;
 	}
 	programmsBatch.clear();
@@ -44,10 +48,15 @@ bool Computer::loadProgramms(size_t nPrograms) {
 	string::value_type line[num+1];
 	// read to the end of line
 	string strLine;
-	cin.getline(line, num);
-	strLine = string(line);
-	assert(strLine.empty());
+    int count = gMyConsoleData.count();
+    QMessageBox::information(this, "Output", QString::number(count), QMessageBox::Ok, QMessageBox::NoButton);
+    QString str1 = gMyConsoleData.at(count);
+    strLine = str1.toStdString();
+    //cin.getline(line, num);
+    //strLine = string(line);
+    //assert(strLine.empty());
 	Programm* programm;
+    QMessageBox::information(this, "Output", "loadProgramms", QMessageBox::Ok, QMessageBox::NoButton);
 	for (size_t i = 1; i <= nPrograms; ++i) {
 		programmsBatch.push_back(programm = new Programm(i));
 		string error;

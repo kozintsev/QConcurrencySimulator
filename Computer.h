@@ -32,7 +32,7 @@ protected:
 };
 
 /** Computer system */
-class Computer : public QObject {
+class Computer : public QMainWindow {
 
     friend class CPU;
 

@@ -19,6 +19,7 @@ size_t CPU::executeCommand(size_t programmID, const string& command) {
 	if (command.substr(0, 6).compare("print ") == 0) {
         QString str;
         str = QString::number(programmID) + ": " + QString::number(computer->memory.getValue(command[6]));
+        gQStrLisr << str;
         //computer->sendString(str);
         //sendSignal(str);
         //ui->mylistWidget->addItem(str);
