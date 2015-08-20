@@ -53,7 +53,9 @@ public:
 	void unloadProgramms();
 
 	/** execute programs calculation */
-    void calculate(std::string &out);
+    void calculate();
+
+    list<string> myListForOut;
 
 //    void sendSignal(const QString& str)
 //    {

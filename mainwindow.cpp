@@ -32,9 +32,9 @@ MainWindow::MainWindow(QWidget *parent) :
         for (int i = 0;  i < fs->fileRead.count(); i++)
         {
             s += (fs->fileRead[i] + "\r\n");
-            QMessageBox::information(this, tr("Concurrency Simulator"),
-                                       fs->fileRead[i],
-                                       QMessageBox::Ok, QMessageBox::Ok);
+            //QMessageBox::information(this, tr("Concurrency Simulator"),
+            //                           fs->fileRead[i],
+            //                           QMessageBox::Ok, QMessageBox::Ok);
         }
         Computer computer;
         //QObject::connect(computer, SIGNAL(sendSignal(const QString& str)),
@@ -44,8 +44,10 @@ MainWindow::MainWindow(QWidget *parent) :
         //s = tr("loadProgramms out = ") + QString::fromStdString(str);
         ui->mylistWidget->addItem(tr("loadProgramms out = ") + QString::fromStdString(str));
         if (res) {
-             //computer.calculate(str);
-             //ui->mylistWidget->addItem("loadProgramms out = " + QString::fromStdString(str));
+             ui->mylistWidget->addItem(tr("res = true"));
+             computer.calculate();
+             string l = computer.myListForOut.front();
+             ui->mylistWidget->addItem("l = " + QString::fromStdString(l));
         }
         //ui->mylistWidget->addItems(gQStrLisr);
     }

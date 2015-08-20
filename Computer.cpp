@@ -34,8 +34,10 @@ void Computer::readInputStream(FileStructure &fs) {
 }
 
 bool Computer::loadProgramms(size_t nPrograms, string strLine, string& out) {
+    QMessageBox::information(this, "loadProgramms strLine = ", QString::fromStdString(strLine), QMessageBox::Ok, QMessageBox::NoButton);
     //QString str;
     //str = QString::fromStdString(error);
+    out = "string out loadProgramms";
 	if (nPrograms > acceptMaxPrograms) {
         out =  "#computer accept only " + convertIntToString(acceptMaxPrograms) + " programs";
         //str = "#computer accept only " + QString::fromStdString(convertIntToString(acceptMaxPrograms)) + " programs";
@@ -66,6 +68,7 @@ bool Computer::loadProgramms(size_t nPrograms, string strLine, string& out) {
             //str = QString::fromStdString(error);
             //sendSignal(str);
             //cout << error << endl;
+            QMessageBox::critical(this, "loadProgramms error", QString::fromStdString(error), QMessageBox::Ok, QMessageBox::NoButton);
 			return false;
 		}
 		readyQueue.push(programm);
@@ -82,7 +85,8 @@ void Computer::unloadProgramms() {
 	while (!blockedQueue.empty()) blockedQueue.pop();
 }
 
-void Computer::calculate(string& out) {
+void Computer::calculate() {
+    string out;
 	Programm* current;
 	while (!readyQueue.empty()) {
 		current = readyQueue.front();
@@ -92,6 +96,7 @@ void Computer::calculate(string& out) {
 		while (timeAmount < unitsNumQuantum) {
 			try {
                 size_t timeAmountTmp = current->nextInstruction(cpu, out);
+                myListForOut.push_back(out);
 				if (timeAmountTmp == 0) break;
 				timeAmount += timeAmountTmp;
 			}
