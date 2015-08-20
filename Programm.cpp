@@ -58,18 +58,18 @@ inline bool isEquation(string command)
 	convertIntToString(ID) + " line " + convertIntToString(nLines) + \
 	": too big program (only " + convertIntToString(acceptMaxStatements) + " statements accepted)")
 
-bool Programm::readInputStream(string& error) {
+bool Programm::readInputStream(string& error, string strLine) {
 	error.clear();
 	const size_t num = 100;
-	string::value_type line[num+1];
-	string strLine;
-	strLine.reserve(num);
+    //string::value_type line[num+1];
+    //string strLine;
+    strLine.reserve(num);
 	code.clear();
 	const string::value_type delimiters[] = "\n\t\r\f\v ";
 	size_t nLines = 0;
 	for ( ; strLine.compare("end") && nLines < acceptMaxStatements; ++nLines) {
-		cin.getline(line, num);
-		strLine = string(line);
+        //cin.getline(line, num);
+        //strLine = string(line);
 		trimStringRight(strLine, delimiters);
 		if (strLine.empty()) {
 			ERROR_EMPTYLINE(ID, nLines, error);
@@ -124,12 +124,12 @@ bool Programm::readInputStream(string& error) {
 	return true;
 }
 
-size_t Programm::nextInstruction(CPU& cpu) {
+size_t Programm::nextInstruction(CPU& cpu, string& out) {
 	if (instructionsPointer >= code.size()) {
 		// the program execute all its instructions
 		return 0;
 	}
-	size_t units = cpu.executeCommand(ID, code[instructionsPointer]);
+    size_t units = cpu.executeCommand(ID, code[instructionsPointer], out);
 	instructionsPointer++;
 	return units;
 }

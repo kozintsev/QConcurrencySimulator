@@ -34,13 +34,13 @@ public:
 	 *  return true if success - false mean error
 	 *  error - string error message
 	**/
-	bool readInputStream(string& error);
+    bool readInputStream(string& error, std::string strLine);
 
 	/** executes next program instruction 
 	 *  instructionsPointer - point to executed instruction 
 	 *  returns time units amount
 	**/
-	size_t nextInstruction(CPU& cpu);
+    size_t nextInstruction(CPU& cpu, std::string &out);
 
 protected:
 	/** unique program identifier */

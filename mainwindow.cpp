@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     size_t nPrograms;
+    string str;
+    QString s;
     ui->setupUi(this);
     //QMessageBox::information(this, "Output", "output", QMessageBox::Ok, QMessageBox::NoButton);
     try
@@ -29,20 +31,23 @@ MainWindow::MainWindow(QWidget *parent) :
         nPrograms = fs->nPrograms;
         for (int i = 0;  i < fs->fileRead.count(); i++)
         {
-            //QString s = QString::number(nPrograms);
-            //QMessageBox::information(this, tr("Concurrency Simulator"),
-            //                           fs->fileRead[i],
-            //                           QMessageBox::Ok, QMessageBox::Ok);
+            s += (fs->fileRead[i] + "\r\n");
+            QMessageBox::information(this, tr("Concurrency Simulator"),
+                                       fs->fileRead[i],
+                                       QMessageBox::Ok, QMessageBox::Ok);
         }
         Computer computer;
         //QObject::connect(computer, SIGNAL(sendSignal(const QString& str)),
         //    this, SLOT(slot(const QString& str));
         computer.readInputStream(*fs);
-        bool res = computer.loadProgramms(nPrograms);
-        //if (res) {
-        //     computer.calculate();
-        //}
-        ui->mylistWidget->addItems(gQStrLisr);
+        bool res = computer.loadProgramms(nPrograms, s.toStdString(), str);
+        //s = tr("loadProgramms out = ") + QString::fromStdString(str);
+        ui->mylistWidget->addItem(tr("loadProgramms out = ") + QString::fromStdString(str));
+        if (res) {
+             //computer.calculate(str);
+             //ui->mylistWidget->addItem("loadProgramms out = " + QString::fromStdString(str));
+        }
+        //ui->mylistWidget->addItems(gQStrLisr);
     }
     }
     catch(...)
@@ -84,9 +89,6 @@ bool MainWindow::OpenFile()
                 firstLine = str.split(" ");
                 fs->nPrograms = firstLine[0].toInt();
             }
-            else
-            {
-            }
             i++;
             fs->fileRead << str;
         }
@@ -97,6 +99,9 @@ bool MainWindow::OpenFile()
                                            QMessageBox::Ok, QMessageBox::Ok);
         }
         file.close();
+        //QMessageBox::critical(this, tr("Concurrency Simulator"),
+          //                             gMyConsoleData.at(1),
+            //                           QMessageBox::Ok, QMessageBox::Ok);
         return true;
     }
     return false;

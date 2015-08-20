@@ -7,6 +7,7 @@
 #include <QObject>
 
 #include "mainwindow.h"
+#include "filestructure.h"
 
 /** Computer memory */
 class Memory {
@@ -46,13 +47,13 @@ public:
     void readInputStream(FileStructure &fs);
 
 	/** loads nPrograms to the system (reads its from standard input stream) */
-	bool loadProgramms(size_t nPrograms);
+    bool loadProgramms(size_t nPrograms, std::string strLine, std::string &out);
 
 	/** clear all programs */
 	void unloadProgramms();
 
 	/** execute programs calculation */
-	void calculate();
+    void calculate(std::string &out);
 
 //    void sendSignal(const QString& str)
 //    {
@@ -77,6 +78,7 @@ protected:
 	queue<Programm*, list<Programm*> > readyQueue;
 	/** maximum programs accepted */
 	const size_t acceptMaxPrograms;
+    FileStructure* _fs;
 
 //signals:
 //    void sendString(const QString&);

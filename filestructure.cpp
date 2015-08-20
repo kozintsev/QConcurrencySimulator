@@ -1,5 +1,6 @@
 #include "filestructure.h"
 
+
 FileStructure::FileStructure()
 {
     nPrograms = 0;                    // the number of programs

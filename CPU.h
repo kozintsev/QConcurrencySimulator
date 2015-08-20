@@ -1,10 +1,10 @@
 #ifndef CPU_H
 #define CPU_H
 
-//#include <QMainWindow>
-//#include <QMessageBox>
-//#include <QStringListModel>
-#include <QObject>
+#include <QMainWindow>
+#include <QMessageBox>
+#include <QStringListModel>
+//#include <QObject>
 
 //#include "mainwindow.h"
 #include "filestructure.h"
@@ -34,6 +34,7 @@ public:
 		return programmID;
 	}
 
+
 protected:
 	/** program ID which is lock this object or 0 */
 	size_t programmID;
@@ -51,7 +52,7 @@ public:
 	/** CPU executes one command for the Programm which id is programmID 
 	 *  returns time units amount
 	**/
-	size_t executeCommand(size_t programmID, const string& command);
+    size_t executeCommand(size_t programmID, const string& command, std::string& out);
 
 	/** sets Computer for CPU */
 	void setComputer(Computer* computer_) {

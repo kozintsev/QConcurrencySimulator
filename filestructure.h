@@ -5,6 +5,7 @@
 #include <QStringList>
 
 static QStringList gQStrLisr; // глобальный список для вывода сообщений
+
 static QStringList gMyConsoleData; // глобальный список для хранения данных из ListView
 
 class FileStructure
@@ -20,6 +21,7 @@ public:
             ,unitsNumStopExecution        // time units for operation: StopExecution
             ;
     QStringList fileRead;
+
 
 };
 

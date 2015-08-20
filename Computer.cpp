@@ -29,40 +29,41 @@ Computer::~Computer() {
 void Computer::readInputStream(FileStructure &fs) {
     cpu.readInputStream(fs);
     unitsNumQuantum = fs.unitsNumQuantum;
+    _fs = &fs;
     QMessageBox::information(this, "Output", "readInputStream", QMessageBox::Ok, QMessageBox::NoButton);
 }
 
-bool Computer::loadProgramms(size_t nPrograms) {
-    QString str;
+bool Computer::loadProgramms(size_t nPrograms, string strLine, string& out) {
+    //QString str;
     //str = QString::fromStdString(error);
 	if (nPrograms > acceptMaxPrograms) {
-        //cout << "#computer accept only " + convertIntToString(acceptMaxPrograms) + " programs" << endl;
-        str = "#computer accept only " + QString::fromStdString(convertIntToString(acceptMaxPrograms)) + " programs";
-        gQStrLisr << str;
+        out =  "#computer accept only " + convertIntToString(acceptMaxPrograms) + " programs";
+        //str = "#computer accept only " + QString::fromStdString(convertIntToString(acceptMaxPrograms)) + " programs";
+        //gQStrLisr << str;
 		return false;
 	}
 	programmsBatch.clear();
 	while (!readyQueue.empty()) readyQueue.pop();
 	while (!blockedQueue.empty()) blockedQueue.pop();
 	const size_t num = 100;
-	string::value_type line[num+1];
+    //string::value_type line[num+1];
 	// read to the end of line
-	string strLine;
-    int count = gMyConsoleData.count();
-    QMessageBox::information(this, "Output", QString::number(count), QMessageBox::Ok, QMessageBox::NoButton);
-    QString str1 = gMyConsoleData.at(count);
-    strLine = str1.toStdString();
+    //string strLine;
+    //int count = _fs->fileRead.count();
+    //QMessageBox::information(this, "Output", QString::number(count), QMessageBox::Ok, QMessageBox::NoButton);
+    //QString str1 = _fs->fileRead.at(count-1);
+    //strLine = str1.toStdString();
     //cin.getline(line, num);
     //strLine = string(line);
-    //assert(strLine.empty());
+    //assert(strLine.empty()); // предупреждение если strLine пустая
 	Programm* programm;
     QMessageBox::information(this, "Output", "loadProgramms", QMessageBox::Ok, QMessageBox::NoButton);
 	for (size_t i = 1; i <= nPrograms; ++i) {
 		programmsBatch.push_back(programm = new Programm(i));
 		string error;
-		bool res = programm->readInputStream(error);
+        bool res = programm->readInputStream(error, strLine);
 		if (!res) {
-            str = QString::fromStdString(error);
+            //str = QString::fromStdString(error);
             //sendSignal(str);
             //cout << error << endl;
 			return false;
@@ -81,7 +82,7 @@ void Computer::unloadProgramms() {
 	while (!blockedQueue.empty()) blockedQueue.pop();
 }
 
-void Computer::calculate() {
+void Computer::calculate(string& out) {
 	Programm* current;
 	while (!readyQueue.empty()) {
 		current = readyQueue.front();
@@ -90,7 +91,7 @@ void Computer::calculate() {
 		size_t timeAmount = 0;
 		while (timeAmount < unitsNumQuantum) {
 			try {
-				size_t timeAmountTmp = current->nextInstruction(cpu);
+                size_t timeAmountTmp = current->nextInstruction(cpu, out);
 				if (timeAmountTmp == 0) break;
 				timeAmount += timeAmountTmp;
 			}

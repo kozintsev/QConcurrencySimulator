@@ -14,17 +14,21 @@ void CPU::readInputStream(FileStructure &fs) {
     unitsNumStopExecution = fs.unitsNumStopExecution;
 }
 
-size_t CPU::executeCommand(size_t programmID, const string& command) {
+size_t CPU::executeCommand(size_t programmID, const string& command, string& out) {
 	size_t timeAmount = 0;
 	if (command.substr(0, 6).compare("print ") == 0) {
-        QString str;
-        str = QString::number(programmID) + ": " + QString::number(computer->memory.getValue(command[6]));
-        gQStrLisr << str;
+        string str;
+        //QString str;
+        //str = QString::number(programmID) + ": " + QString::number(computer->memory.getValue(command[6]));
+        //QMessageBox::information(this, "Output", "str", QMessageBox::Ok, QMessageBox::NoButton);
+        //gQStrLisr << str;
         //computer->sendString(str);
         //sendSignal(str);
         //ui->mylistWidget->addItem(str);
         //programmID << ": " << computer->memory.getValue(command[6]);
         //cout << programmID << ": " << computer->memory.getValue(command[6]) << endl;
+        str = convertIntToString(programmID) + ": " +  convertIntToString(computer->memory.getValue(command[6]));
+        out = str;
 
 		timeAmount = unitsNumOutput;
 	}
